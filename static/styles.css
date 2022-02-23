@@ -1,0 +1,32 @@
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background-image: linear-gradient(rgba(232,230,254,1), rgba(232,230,254,0));
+}
+
+main-title {
+  padding-top: 100px;
+}
+
+.m-img {
+  border-radius: 50%;
+}
+
+.login-form #submit {
+  margin-top: 20px;
+}
+
+h2 {
+  text-align: center;
+}
+
+#new-card {
+  padding-bottom: 40px;
+}
+
+#kanban-board {
+  padding-bottom: 40px;
+}
+
+.btn-p {
+  text-align: center;
+}

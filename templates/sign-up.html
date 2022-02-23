@@ -1,0 +1,16 @@
+{% include 'header.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+<section class="sign-in">
+<div class="container py-5 my-5">
+    <div class="row">
+        <div class="col-lg-4 col-md-10 mx-auto py-5 my-5 login-form">
+            <h2>Sign Up</h2>
+{{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}, horizontal_columns=('sm', 2, 10)) }}
+            </div>
+        </div>
+</div>
+</section>
+
+{% include 'footer.html' %}

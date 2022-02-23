@@ -1,0 +1,8 @@
+{% include 'header.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+<div class="col-md-4 mx-auto">
+        {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+      </div>
+
+{% include 'footer.html' %}

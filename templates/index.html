@@ -1,0 +1,21 @@
+{% include 'header.html' %}
+
+<section class="hero">
+  <div class="container pt-5 mt-5">
+    <div class="row">
+      <div class="col-md-7 main-title text-left pt-5 mt-5">
+    <h1>Create TO-DO lists with Keegello!</h1>
+        <p class="fs-5">Create an account, invite team members, create to-dos, assign team members, and more.</p>
+        {% if not current_user.is_authenticated %}
+        <a href="{{url_for('sign_up')}}" class="btn button-lg bg-primary text-white font-weight-bold big-signup">Sign Up (it's free)</a>
+        {% else %}
+        {% endif %}
+      </div>
+      <div class="col-md-5 main-img mb-5">
+        <img src="static/img/todo-list.png" width="440px" height="1200" class="img-fluid m-img">
+      </div>
+    </div>
+  </div>
+</section>
+
+{% include 'footer.html' %}
