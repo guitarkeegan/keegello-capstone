@@ -5,10 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 app = Flask(__name__)
 Bootstrap(app)
-app.config["SECRET_KEY"] = "huasJHJDNFNNJJKA98888*%&*&^^&*(JHBnnnnsd"
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///keegello.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -36,7 +37,7 @@ class Card(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(80), nullable=False)
     priority = db.Column(db.String(80), nullable=False)
-    task = db.Column(db.String(250), nullable=False, unique=True)
+    task = db.Column(db.String(250), nullable=False)
     description = db.Column(db.String(500), nullable=False)
 
     participant_id = db.Column(db.Integer, db.ForeignKey("users.id"))
@@ -99,11 +100,13 @@ def sign_up():
 
 
 @app.route("/main-app", methods=["GET", "POST"])
+@login_required
 def main_app():
     if not current_user.is_authenticated:
         flash("You must login to use the kanban.")
         return redirect(url_for("login"))
-    all_cards = Card.query.all()
+    all_cards = Card.query.filter_by(participant_id=current_user.id).all()
+    users = User.query.get(current_user.id)
     new_card_form = KanbanCardForm()
     if new_card_form.validate_on_submit():
         card = Card(
@@ -116,10 +119,11 @@ def main_app():
         db.session.add(card)
         db.session.commit()
         return redirect(url_for("main_app"))
-    return render_template("app.html", form=new_card_form, cards=all_cards)
+    return render_template("app.html", form=new_card_form, cards=all_cards, users=users)
 
 
 @app.route("/delete/<int:card_id>")
+@login_required
 def delete_card(card_id):
     card_to_delete = Card.query.get(card_id)
     db.session.delete(card_to_delete)
@@ -128,6 +132,7 @@ def delete_card(card_id):
 
 
 @app.route("/edit-card/<int:card_id>", methods=["GET", "POST"])
+@login_required
 def edit_card(card_id):
     card_to_edit = Card.query.get(card_id)
     edit_form = KanbanCardForm(
@@ -145,11 +150,6 @@ def edit_card(card_id):
         return redirect(url_for("main_app"))
     return render_template("edit.html", form=edit_form)
 
-# TODO: show users working on the project team
-
-# TODO: publish to github
-
-# TODO: fix new row problem
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

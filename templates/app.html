@@ -6,6 +6,13 @@
     Toggle New Card
   </a>
 </p>
+  {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            {{message}}
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
 <div class="collapse" id="showCard">
   <div class="card card-body">
       <div class="container-fluid">
@@ -22,54 +29,25 @@
 <!-- card row -->
 <section id="kanban-board">
 <div class="container-fluid">
-
+<div class="row">
 {% for card in cards %}
-  {% if card.category == "To-do" %}
-<div class="row justify-content-center">
+
 <div class="col-3">
-  <h5>To-do</h5>
   <div class="card" style="width: 15rem;">
 <div class="card-body">
   <h5 class="card-title">{{card.task}}</h5>
+  <p>status: {{ card.category }}</p>
   <p>Priority: {{card.priority}}</p>
   <p class="card-text">{{card.description}}</p>
   <a href="{{url_for('edit_card', card_id=card.id)}}" class="btn btn-primary btn-sm mb-2">Edit Card</a>
   <a href="{{url_for('delete_card', card_id=card.id)}}" class="btn btn-danger btn-sm mb-2">Delete Card</a>
-  <p>Team: {{}}</p>
 </div>
 </div>
 </div>
-  {% endif %}
-{% if card.category == "In-progress" %}
 
-<div class="col-3">
-  <h5>In Progress</h5>
-  <div class="card" style="width: 15rem;">
-<div class="card-body">
-  <h5 class="card-title">{{card.task}}</h5>
-  <p>Priority: {{card.priority}}</p>
-  <p class="card-text">{{card.description}}</p>
-  <a href="#" class="btn btn-primary">Go somewhere</a>
-</div>
-</div>
-</div>
-  {% endif %}
-{% if card.category == "Complete" %}
-<div class="col-3">
-  <h5>Completed</h5>
-  <div class="card" style="width: 15rem;">
-<div class="card-body">
-  <h5 class="card-title">{{card.task}}</h5>
-  <p>Priority: {{card.priority}}</p>
-  <p class="card-text">{{card.description}}</p>
-  <a href="#" class="btn btn-primary">Go somewhere</a>
-</div>
-</div>
-</div>
-  {% endif %}
   {% endfor %}
 </div>
-</div>
+ </div>
   </section>
 
 {% include 'footer.html' %}

@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-md-7 main-title text-left pt-5 mt-5">
     <h1>Create TO-DO lists with Keegello!</h1>
-        <p class="fs-5">Create an account, invite team members, create to-dos, assign team members, and more.</p>
+        <p class="fs-5">Create an account, create to-dos and accomplish your goals.</p>
         {% if not current_user.is_authenticated %}
         <a href="{{url_for('sign_up')}}" class="btn button-lg bg-primary text-white font-weight-bold big-signup">Sign Up (it's free)</a>
         {% else %}
